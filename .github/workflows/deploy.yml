@@ -15,7 +15,6 @@ jobs:
       - name: Add CNAME file
         run: echo "www.abdullahmuradportfolio.com" > build/web/CNAME
       - name: Deploy to GitHub Pages
-        uses: bluefireteam/flutter-gh-pages@v7
+        uses: bluefireteam/flutter-gh-pages@v9
         with:
           baseHref: /
-          buildCommand: flutter build web --release --base-href /
