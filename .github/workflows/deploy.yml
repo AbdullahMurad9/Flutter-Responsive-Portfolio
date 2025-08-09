@@ -2,20 +2,26 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [ main ]
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+
       - uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
+
       - run: flutter pub get
       - run: flutter build web --release --base-href=/
+
       - name: Add CNAME file
         run: echo "www.abdullahmuradportfolio.com" > build/web/CNAME
-      - name: Deploy to GitHub Pages
-        uses: bluefireteam/flutter-gh-pages@v7
-        with:
-          baseHref: /
-          customArgs: "--release --base-href /"
+
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v2.8.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # ✅ correct auth
+          PUBLISH_BRANCH: gh-pages
+          PUBLISH_DIR: ./build/web
