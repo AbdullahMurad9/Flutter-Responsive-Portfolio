@@ -1,5 +1,4 @@
-name: Gh-Pages
-
+name: Deploy to GitHub Pages
 on:
   push:
     branches: [ main ]
@@ -7,8 +6,17 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v4
       - uses: subosito/flutter-action@v2
-      - uses: bluefireteam/flutter-gh-pages@v9
+
+      - run: flutter pub get
+      - run: flutter build web --release --base-href=/
+
+      - name: Add CNAME file
+        run: echo "www.abdullahmuradportfolio.com" > build/web/CNAME
+
+      - name: Deploy
+        uses: bluefireteam/flutter-gh-pages@v9
+        with:
+          baseHref: /
